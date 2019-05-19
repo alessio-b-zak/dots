@@ -116,10 +116,23 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# added by Anaconda3 installer
+alias thesis='cd ~/Documents/uni/year_4/thesis'
+alias dev='cd ~/Documents/dev/'
 
-. /usr/share/powerline/bindings/bash/powerline.sh
 
+bandit () { ssh "$@"@bandit.labs.overthewire.org -p 2220; }
 
-export PATH=$PATH:/usr/bin/cmus-remote
-export LD_LIBRARY_PATH='/opt/Qt5.5.1/5.5/gcc_64/lib':$LD_LIBRARY_PATH;
+texcomp () { latexmk -pvc -pdf $@ < /dev/null; }
+
+. /usr/local/lib/python3.5/dist-packages/powerline/bindings/bash/powerline.sh
+
+alias tmux="TERM=screen-256color-bce tmux"
+
+task next
+
+alias psudo='sudo env PATH="$PATH"'
+
+/usr/bin/setxkbmap -option 'caps:ctrl_modifier'
+/usr/bin/xcape -e 'Caps_Lock=Escape' -t 100
+
+export NOTES=~/Documents/notes/
