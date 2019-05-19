@@ -2,15 +2,20 @@ execute pathogen#infect()
 filetype plugin indent on
 filetype plugin on
 
-let g:tex_flavor='latex'
+
 
 colorscheme seoul256
 let g:jellybeans_use_term_italics = 1
-
+let g:diffopt='vertical'
 autocmd vimenter * NERDTree
 autocmd VimEnter * wincmd w
 
+let g:tex_conceal = ""
+
 autocmd StdinReadPre * let s:std_in=1
+
+let g:tex_flavor='latex'
+set diffopt+=vertical
 
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 
@@ -19,8 +24,8 @@ autocmd StdinReadPre * let s:std_in=1
 au BufRead,BufEnter,BufNewFile * IndentLinesReset
 
 
-
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
 
 autocmd bufenter * if(winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
@@ -84,9 +89,30 @@ autocmd BufWinLeave * call clearmatches()
 
 let g:indentLine_char = '|'
 
-let g:tidal_default_config = {"socket_name": "default", "target_pane": ":.1"}
 
+"autocmd InsertLeave *.tex silent write
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
+
+let g:Tex_Env_comd = "\\begin{tikzcd}\<CR><++>\<CR>\\end{tikzcd}<++>"
+let g:Tex_Env_gen = "\\begin{<++>}\<CR><++>\<CR>\\end{<++>}<++>"
+let g:Tex_Env_agmc = "\\begin{AgdaMultiCode}\<CR><++>\<CR>\\end{AgdaMultiCode}<++>"
+let g:Tex_Env_alignst = "\\begin{align*}\<CR><++>\<CR>\\end{align*}<++>"
+let g:Tex_Env_cfb = "\\ExecuteMetaData[../agda/latex/<++>]{<++>}<++>"
+let g:Tex_SmartKeyQuote=0
+
+autocmd BufNewFile,BufRead *.tex call IMAP('ETZ', g:Tex_Env_comd, 'tex')
+
+autocmd BufNewFile,BufRead *.tex call IMAP('ATZ', g:Tex_Env_alignst, 'tex')
+
+autocmd BufNewFile,BufRead *.tex call IMAP('ATC', g:Tex_Env_cfb, 'tex')
+
+autocmd BufNewFile,BufRead *.tex call IMAP('AMC', g:Tex_Env_agmc, 'tex')
+
+autocmd BufNewFile,BufRead *.tex call IMAP('ATT', g:Tex_Env_gen, 'tex')
 
 set noshowmode
 "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 "match OverLength /\%81v.\+/
+"
+"k
