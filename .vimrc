@@ -61,11 +61,10 @@ set incsearch
 set hlsearch
 
 au BufRead,BufNewFile *.md setlocal textwidth=80
-au BufRead,BufNewFile *.tex setlocal textwidth=80
 
-python3 from powerline.vim import setup as powerline_setup
-python3 powerline_setup()
-python3 del powerline_setup
+" python3 from powerline.vim import setup as powerline_setup
+" python3 powerline_setup()
+" python3 del powerline_setup
 
 let g:haskell_indent_before_where = 2
 let g:haskell_indent_after_bare_where=2
@@ -99,7 +98,12 @@ let g:Tex_Env_gen = "\\begin{<++>}\<CR><++>\<CR>\\end{<++>}<++>"
 let g:Tex_Env_agmc = "\\begin{AgdaMultiCode}\<CR><++>\<CR>\\end{AgdaMultiCode}<++>"
 let g:Tex_Env_alignst = "\\begin{align*}\<CR><++>\<CR>\\end{align*}<++>"
 let g:Tex_Env_cfb = "\\ExecuteMetaData[../agda/latex/<++>]{<++>}<++>"
+let g:Tex_Env_bfr = "\\begin{frame}\<CR>\\frametitle{<++>}\<CR><++>\<CR>\\end{frame}<++>"
 let g:Tex_SmartKeyQuote=0
+
+
+au FileType tex,bib let b:delimitMate_smart_matchpairs = '^\%(\w\|\!\|[£]\|[^[:space:][:punct:]]\)'
+
 
 autocmd BufNewFile,BufRead *.tex call IMAP('ETZ', g:Tex_Env_comd, 'tex')
 
@@ -111,8 +115,23 @@ autocmd BufNewFile,BufRead *.tex call IMAP('AMC', g:Tex_Env_agmc, 'tex')
 
 autocmd BufNewFile,BufRead *.tex call IMAP('ATT', g:Tex_Env_gen, 'tex')
 
+autocmd BufNewFile,BufRead *.tex call IMAP('BFR', g:Tex_Env_bfr, 'tex')
+
 set noshowmode
+
+let g:Tex_AdvancedMath = 1
+
+let mapleader = "\,"
+
+imap <Leader>i <Plug>Tex_InsertItemOnThisLine
+imap <Leader>c <Plug>Tex_MathCal
+imap <Leader>l <Plug>Tex_LeftRight
+imap <Leader>b <Plug>Tex_MathBF
+
+
 "highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 "match OverLength /\%81v.\+/
 "
 "k
+"
+au BufRead,BufNewFile *.tex setlocal textwidth=80
